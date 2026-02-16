@@ -6,6 +6,7 @@ import io.github.ash.fastcrops.config.WorldConfig;
 import io.github.ash.fastcrops.tracking.GrowableTracker;
 import io.github.ash.fastcrops.tracking.TrackedWorldState;
 import java.util.OptionalLong;
+import java.util.Random;
 import java.util.random.RandomGenerator;
 import org.bukkit.World;
 
@@ -14,7 +15,7 @@ public final class GrowthEngine {
     private final FastCropsConfig config;
     private final GrowableTracker tracker;
     private final GrowthLogic growthLogic;
-    private final RandomGenerator random = RandomGenerator.getDefault();
+    private final RandomGenerator random = new Random();
 
     private int taskId = -1;
 
