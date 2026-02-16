@@ -11,10 +11,6 @@ commands:
     usage: /fastcrops <status|reload|set|toggle>
     aliases: [fcrops]
     permission: fastcrops.admin
-  fastcropsadmin:
-    description: FastCrops admin commands (conflict-safe)
-    usage: /fastcropsadmin <status|reload|set|toggle>
-    permission: fastcrops.admin
 
 permissions:
   fastcrops.admin:

@@ -58,17 +58,13 @@ public final class FastCropsPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        FastCropsCommand handler = new FastCropsCommand(this);
-        registerCommand("fastcrops", handler);
-        registerCommand("fastcropsadmin", handler);
-    }
-
-    private void registerCommand(String name, FastCropsCommand handler) {
-        PluginCommand command = getCommand(name);
+        PluginCommand command = getCommand("fastcrops");
         if (command == null) {
-            getLogger().severe("Command '" + name + "' is missing from plugin.yml.");
+            getLogger().severe("Command 'fastcrops' is missing from plugin.yml.");
             return;
         }
+
+        FastCropsCommand handler = new FastCropsCommand(this);
         command.setExecutor(handler);
         command.setTabCompleter(handler);
     }
