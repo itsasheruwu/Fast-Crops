@@ -1,0 +1,20 @@
+enabled: true
+vanillaRandomTickSpeed: 3
+defaultTargetTickSpeed: 100
+intervalTicks: 2
+maxBlocksPerTickPerWorld: 2000
+
+worlds:
+  world:
+    enabled: true
+    targetTickSpeed: 100
+    maxBlocksPerTick: 2000
+
+include:
+  crops: true
+  saplings: true
+  bamboo: false
+  sugarCane: false
+  cactus: false
+
+debug: false

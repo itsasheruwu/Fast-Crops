@@ -1,0 +1,17 @@
+name: FastCrops
+version: '${version}'
+main: io.github.ash.fastcrops.FastCropsPlugin
+api-version: '1.21'
+description: Accelerates crop and sapling growth using tracked random-tick-like attempts.
+authors: [starboyash]
+
+commands:
+  fastcrops:
+    description: FastCrops admin commands
+    usage: /fastcrops <status|reload|set|toggle>
+    permission: fastcrops.admin
+
+permissions:
+  fastcrops.admin:
+    description: Allows all FastCrops commands
+    default: op
