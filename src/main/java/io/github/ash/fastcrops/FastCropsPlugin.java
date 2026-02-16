@@ -27,6 +27,7 @@ public final class FastCropsPlugin extends JavaPlugin {
         this.growthEngine.start();
 
         registerCommands();
+        getLogger().info("Command hint: use /fastcrops or /fcrops. If there is a command conflict, use /fastcrops:fastcrops.");
         getLogger().info("FastCrops enabled.");
     }
 
