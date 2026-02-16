@@ -30,4 +30,11 @@ class GrowthMathTest {
         int attempts = GrowthMath.extraAttemptsPerRun(10000.0D, 3, 2, new Random(2L));
         assertTrue(attempts >= 4);
     }
+
+    @Test
+    void coverageCompensationIncreasesAttemptsForSparseProcessing() {
+        int base = GrowthMath.extraAttemptsPerProcessedBlock(1000.0D, 3, 2.0D, new Random(10L));
+        int compensated = GrowthMath.extraAttemptsPerProcessedBlock(1000.0D, 3, 20.0D, new Random(10L));
+        assertTrue(compensated >= base);
+    }
 }

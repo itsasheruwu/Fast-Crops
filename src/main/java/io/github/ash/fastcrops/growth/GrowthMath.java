@@ -21,9 +21,22 @@ public final class GrowthMath {
             int intervalTicks,
             RandomGenerator random
     ) {
-        int sanitizedInterval = Math.max(1, intervalTicks);
+        return extraAttemptsPerProcessedBlock(
+                targetTickSpeed,
+                vanillaRandomTickSpeed,
+                Math.max(1, intervalTicks),
+                random
+        );
+    }
+
+    public static int extraAttemptsPerProcessedBlock(
+            double targetTickSpeed,
+            int vanillaRandomTickSpeed,
+            double effectiveIntervalTicks,
+            RandomGenerator random
+    ) {
         double extraTickSpeed = Math.max(0.0D, targetTickSpeed - Math.max(0, vanillaRandomTickSpeed));
-        double extraPerRun = (extraTickSpeed / BLOCKS_PER_CHUNK_SECTION) * sanitizedInterval;
+        double extraPerRun = (extraTickSpeed / BLOCKS_PER_CHUNK_SECTION) * Math.max(0.0D, effectiveIntervalTicks);
 
         int baseExtra = (int) Math.floor(extraPerRun);
         double fractional = extraPerRun - baseExtra;

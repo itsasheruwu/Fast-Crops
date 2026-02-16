@@ -60,6 +60,9 @@ public final class GrowthEngine {
             }
 
             int budget = Math.min(worldConfig.maxBlocksPerTick(), state.size());
+            double coverageFactor = budget <= 0 ? 1.0D : ((double) state.size()) / (double) budget;
+            double effectiveIntervalTicks = config.getIntervalTicks() * Math.max(1.0D, coverageFactor);
+
             for (int i = 0; i < budget; i++) {
                 OptionalLong packedOptional = state.nextPosition();
                 if (packedOptional.isEmpty()) {
@@ -82,10 +85,10 @@ public final class GrowthEngine {
                     continue;
                 }
 
-                int attempts = GrowthMath.extraAttemptsPerRun(
+                int attempts = GrowthMath.extraAttemptsPerProcessedBlock(
                         worldConfig.targetTickSpeed(),
                         config.getVanillaRandomTickSpeed(),
-                        config.getIntervalTicks(),
+                        effectiveIntervalTicks,
                         random
                 );
 
