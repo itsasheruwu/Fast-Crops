@@ -28,6 +28,13 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.processResources {
+    filteringCharset = "UTF-8"
+    filesMatching("plugin.yml") {
+        expand(mapOf("version" to project.version))
+    }
+}
+
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
     options.release.set(21)

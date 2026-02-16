@@ -9,7 +9,6 @@ commands:
   fastcrops:
     description: FastCrops admin commands
     usage: /fastcrops <status|reload|set|toggle>
-    permission: fastcrops.admin
 
 permissions:
   fastcrops.admin:

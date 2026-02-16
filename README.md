@@ -24,6 +24,8 @@ Fast Crops is a Paper plugin for Minecraft that accelerates only crop and saplin
 Permission:
 - `fastcrops.admin`
 
+`status` is readable by any sender; `reload`, `set`, and `toggle` require `fastcrops.admin`.
+
 ## Configuration
 Default `config.yml`:
 

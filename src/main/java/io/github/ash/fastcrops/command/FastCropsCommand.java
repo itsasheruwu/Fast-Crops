@@ -28,11 +28,6 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission(ADMIN_PERMISSION)) {
-            sender.sendMessage("You do not have permission to use this command.");
-            return true;
-        }
-
         if (args.length == 0) {
             sendUsage(sender, label);
             return true;
@@ -41,13 +36,36 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
         String subcommand = args[0].toLowerCase(Locale.ROOT);
         switch (subcommand) {
             case "status" -> handleStatus(sender);
-            case "reload" -> handleReload(sender);
-            case "set" -> handleSet(sender, args, label);
-            case "toggle" -> handleToggle(sender, args, label);
+            case "reload" -> {
+                if (!hasAdmin(sender)) {
+                    return true;
+                }
+                handleReload(sender);
+            }
+            case "set" -> {
+                if (!hasAdmin(sender)) {
+                    return true;
+                }
+                handleSet(sender, args, label);
+            }
+            case "toggle" -> {
+                if (!hasAdmin(sender)) {
+                    return true;
+                }
+                handleToggle(sender, args, label);
+            }
             default -> sendUsage(sender, label);
         }
 
         return true;
+    }
+
+    private boolean hasAdmin(CommandSender sender) {
+        if (sender.hasPermission(ADMIN_PERMISSION)) {
+            return true;
+        }
+        sender.sendMessage("You need '" + ADMIN_PERMISSION + "' for this subcommand.");
+        return false;
     }
 
     private void handleStatus(CommandSender sender) {
@@ -152,12 +170,12 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (!sender.hasPermission(ADMIN_PERMISSION)) {
-            return Collections.emptyList();
-        }
-
         if (args.length == 1) {
             return complete(args[0], List.of("status", "reload", "set", "toggle"));
+        }
+
+        if (!sender.hasPermission(ADMIN_PERMISSION)) {
+            return Collections.emptyList();
         }
 
         if (args.length == 2 && ("set".equalsIgnoreCase(args[0]) || "toggle".equalsIgnoreCase(args[0]))) {
