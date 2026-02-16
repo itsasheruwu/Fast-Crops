@@ -18,3 +18,11 @@ include:
   cactus: false
 
 debug: false
+
+autoUpdate:
+  enabled: true
+  checkOnStartup: true
+  downloadOnUpdate: true
+  repositoryOwner: itsasheruwu
+  repositoryName: Fast-Crops
+  channel: latest

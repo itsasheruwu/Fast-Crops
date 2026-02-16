@@ -4,6 +4,7 @@ import io.github.ash.fastcrops.command.FastCropsCommand;
 import io.github.ash.fastcrops.config.FastCropsConfig;
 import io.github.ash.fastcrops.growth.GrowthEngine;
 import io.github.ash.fastcrops.tracking.GrowableTracker;
+import io.github.ash.fastcrops.update.AutoUpdater;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +12,7 @@ public final class FastCropsPlugin extends JavaPlugin {
     private FastCropsConfig fastCropsConfig;
     private GrowableTracker growableTracker;
     private GrowthEngine growthEngine;
+    private AutoUpdater autoUpdater;
 
     @Override
     public void onEnable() {
@@ -25,6 +27,8 @@ public final class FastCropsPlugin extends JavaPlugin {
 
         this.growthEngine = new GrowthEngine(this, fastCropsConfig, growableTracker);
         this.growthEngine.start();
+        this.autoUpdater = new AutoUpdater(this, fastCropsConfig);
+        this.autoUpdater.checkAndUpdateAsync();
 
         registerCommands();
         getLogger().info("Command hint: use /fastcrops or /fcrops. If there is a command conflict, use /fastcrops:fastcrops.");

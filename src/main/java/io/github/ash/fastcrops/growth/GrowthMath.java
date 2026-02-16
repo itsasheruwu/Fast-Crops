@@ -3,6 +3,8 @@ package io.github.ash.fastcrops.growth;
 import java.util.random.RandomGenerator;
 
 public final class GrowthMath {
+    private static final int BLOCKS_PER_CHUNK_SECTION = 16 * 16 * 16;
+
     private GrowthMath() {
     }
 
@@ -20,8 +22,8 @@ public final class GrowthMath {
             RandomGenerator random
     ) {
         int sanitizedInterval = Math.max(1, intervalTicks);
-        double effectiveMultiplier = Math.max(0.0D, multiplier(targetTickSpeed, vanillaRandomTickSpeed));
-        double extraPerRun = Math.max(0.0D, (effectiveMultiplier - 1.0D) * sanitizedInterval);
+        double extraTickSpeed = Math.max(0.0D, targetTickSpeed - Math.max(0, vanillaRandomTickSpeed));
+        double extraPerRun = (extraTickSpeed / BLOCKS_PER_CHUNK_SECTION) * sanitizedInterval;
 
         int baseExtra = (int) Math.floor(extraPerRun);
         double fractional = extraPerRun - baseExtra;
@@ -32,5 +34,9 @@ public final class GrowthMath {
         }
 
         return Math.max(0, attempts);
+    }
+
+    public static int blocksPerChunkSection() {
+        return BLOCKS_PER_CHUNK_SECTION;
     }
 }

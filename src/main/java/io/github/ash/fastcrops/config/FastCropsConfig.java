@@ -21,6 +21,12 @@ public final class FastCropsConfig {
     private boolean includeSugarCane;
     private boolean includeCactus;
     private boolean debug;
+    private boolean autoUpdateEnabled;
+    private boolean autoUpdateCheckOnStartup;
+    private boolean autoUpdateDownloadOnUpdate;
+    private String autoUpdateRepositoryOwner;
+    private String autoUpdateRepositoryName;
+    private String autoUpdateChannel;
 
     private Map<String, WorldConfig> worldConfigs = Collections.emptyMap();
 
@@ -42,6 +48,12 @@ public final class FastCropsConfig {
         this.includeCactus = plugin.getConfig().getBoolean("include.cactus", false);
 
         this.debug = plugin.getConfig().getBoolean("debug", false);
+        this.autoUpdateEnabled = plugin.getConfig().getBoolean("autoUpdate.enabled", true);
+        this.autoUpdateCheckOnStartup = plugin.getConfig().getBoolean("autoUpdate.checkOnStartup", true);
+        this.autoUpdateDownloadOnUpdate = plugin.getConfig().getBoolean("autoUpdate.downloadOnUpdate", true);
+        this.autoUpdateRepositoryOwner = plugin.getConfig().getString("autoUpdate.repositoryOwner", "itsasheruwu");
+        this.autoUpdateRepositoryName = plugin.getConfig().getString("autoUpdate.repositoryName", "Fast-Crops");
+        this.autoUpdateChannel = plugin.getConfig().getString("autoUpdate.channel", "latest");
 
         this.worldConfigs = parseWorldConfigs(plugin.getConfig().getConfigurationSection("worlds"));
     }
@@ -117,6 +129,30 @@ public final class FastCropsConfig {
 
     public boolean isDebug() {
         return debug;
+    }
+
+    public boolean isAutoUpdateEnabled() {
+        return autoUpdateEnabled;
+    }
+
+    public boolean isAutoUpdateCheckOnStartup() {
+        return autoUpdateCheckOnStartup;
+    }
+
+    public boolean isAutoUpdateDownloadOnUpdate() {
+        return autoUpdateDownloadOnUpdate;
+    }
+
+    public String getAutoUpdateRepositoryOwner() {
+        return autoUpdateRepositoryOwner;
+    }
+
+    public String getAutoUpdateRepositoryName() {
+        return autoUpdateRepositoryName;
+    }
+
+    public String getAutoUpdateChannel() {
+        return autoUpdateChannel;
     }
 
     public WorldConfig getWorldConfig(String worldName) {

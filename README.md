@@ -72,13 +72,23 @@ debug: false
   - Small servers: keep `intervalTicks` at 1-2 for snappier growth.
 
 ## Implementation behavior
-- Multiplier uses `targetTickSpeed / vanillaRandomTickSpeed`.
-- Extra attempts per run:
-  - `extraPerRun = max(0, (multiplier - 1.0) * intervalTicks)`
+- Target tick speed uses random-tick-accurate per-block math:
+  - `extraTickSpeed = max(0, targetTickSpeed - vanillaRandomTickSpeed)`
+  - `extraPerRun = (extraTickSpeed / 4096) * intervalTicks`
   - floor plus fractional chance for +1 attempt.
 - Growth is probabilistic and step-based (no forced instant max age).
 - Sapling acceleration uses bonemeal application API to preserve vanilla tree events/cancellations.
 - Crop/manual state changes are guarded through `BlockGrowEvent` checks.
+
+## Auto-update
+- Fast Crops can check GitHub releases on startup and automatically download updates to the server `plugins/update` folder.
+- Controlled by `autoUpdate` config:
+  - `enabled`
+  - `checkOnStartup`
+  - `downloadOnUpdate`
+  - `repositoryOwner`
+  - `repositoryName`
+  - `channel` (`latest` or a specific tag)
 
 ## Quick testing steps
 1. Start Paper 1.21.11 with this plugin.

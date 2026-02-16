@@ -14,14 +14,20 @@ class GrowthMathTest {
     }
 
     @Test
-    void extraAttemptsForDefaultSettingsFallsInExpectedRange() {
+    void extraAttemptsForDefaultSettingsMatchesRandomTickMath() {
         int attempts = GrowthMath.extraAttemptsPerRun(100.0D, 3, 2, new Random(7L));
-        assertTrue(attempts == 64 || attempts == 65);
+        assertTrue(attempts == 0 || attempts == 1);
     }
 
     @Test
     void noExtraAttemptsWhenTargetAtOrBelowVanilla() {
         assertEquals(0, GrowthMath.extraAttemptsPerRun(3.0D, 3, 2, new Random(1L)));
         assertEquals(0, GrowthMath.extraAttemptsPerRun(1.0D, 3, 2, new Random(1L)));
+    }
+
+    @Test
+    void veryHighTargetCanProduceMultipleAttempts() {
+        int attempts = GrowthMath.extraAttemptsPerRun(10000.0D, 3, 2, new Random(2L));
+        assertTrue(attempts >= 4);
     }
 }
