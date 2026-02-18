@@ -3,11 +3,13 @@ plugins {
 }
 
 group = "io.github.ash"
-version = "1.1.1"
+version = "1.0.0"
+
+val java21 = JavaLanguageVersion.of(21)
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(java21)
     }
 }
 
@@ -26,6 +28,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion.set(java21)
+    }
 }
 
 tasks.processResources {
@@ -36,6 +41,33 @@ tasks.processResources {
 }
 
 tasks.withType<JavaCompile>().configureEach {
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion.set(java21)
+    }
     options.encoding = "UTF-8"
     options.release.set(21)
+}
+
+tasks.withType<JavaExec>().configureEach {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion.set(java21)
+    }
+}
+
+tasks.register("verifyJava21Runtime") {
+    doFirst {
+        if (JavaVersion.current() != JavaVersion.VERSION_21) {
+            throw GradleException(
+                "This project must be built with Java 21. Current runtime: ${JavaVersion.current()}."
+            )
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn("verifyJava21Runtime")
+}
+
+tasks.named("build") {
+    dependsOn("verifyJava21Runtime")
 }

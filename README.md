@@ -2,6 +2,9 @@
 
 Fast Crops is a Paper plugin for Minecraft that accelerates only crop and sapling growth (plus optional bamboo/sugar cane/cactus), using a tracked-block model designed for large servers.
 
+## Release notes
+- See `CHANGELOG.md` for the full release history and consolidated `v1.0.0` notes.
+
 ## Compatibility
 - Paper `1.21.11`
 - Java `21`

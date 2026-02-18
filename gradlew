@@ -114,6 +114,15 @@ case "$( uname )" in                #(
   NONSTOP* )        nonstop=true ;;
 esac
 
+# Prefer Homebrew OpenJDK 21 on macOS when JAVA_HOME is unset.
+if [ -z "$JAVA_HOME" ] && [ "$darwin" = "true" ] ; then
+    HOMEBREW_JAVA21_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+    if [ -x "$HOMEBREW_JAVA21_HOME/bin/java" ] ; then
+        JAVA_HOME="$HOMEBREW_JAVA21_HOME"
+        export JAVA_HOME
+    fi
+fi
+
 
 
 # Determine the Java command to use to start the JVM.
