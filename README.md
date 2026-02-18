@@ -100,3 +100,6 @@ debug: false
 4. Compare growth speed against vanilla baseline (`randomTickSpeed=3`).
 5. Run `/fastcrops set world targetTickSpeed 50` and verify slower acceleration.
 6. Run `/fastcrops toggle world` and confirm growth acceleration stops/resumes.
+
+## License
+This project is licensed under **GPL-3.0-only**. See `LICENSE` for the full text.
