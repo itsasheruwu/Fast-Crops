@@ -23,6 +23,6 @@ autoUpdate:
   enabled: true
   checkOnStartup: true
   downloadOnUpdate: true
-  repositoryOwner: itsasheruwu
+  repositoryOwner: starboyash
   repositoryName: Fast-Crops
   channel: latest

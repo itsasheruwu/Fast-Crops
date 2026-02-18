@@ -51,7 +51,7 @@ public final class FastCropsConfig {
         this.autoUpdateEnabled = plugin.getConfig().getBoolean("autoUpdate.enabled", true);
         this.autoUpdateCheckOnStartup = plugin.getConfig().getBoolean("autoUpdate.checkOnStartup", true);
         this.autoUpdateDownloadOnUpdate = plugin.getConfig().getBoolean("autoUpdate.downloadOnUpdate", true);
-        this.autoUpdateRepositoryOwner = plugin.getConfig().getString("autoUpdate.repositoryOwner", "itsasheruwu");
+        this.autoUpdateRepositoryOwner = plugin.getConfig().getString("autoUpdate.repositoryOwner", "starboyash");
         this.autoUpdateRepositoryName = plugin.getConfig().getString("autoUpdate.repositoryName", "Fast-Crops");
         this.autoUpdateChannel = plugin.getConfig().getString("autoUpdate.channel", "latest");
 
