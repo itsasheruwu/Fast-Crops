@@ -2,6 +2,18 @@
 
 All notable user-facing changes are documented in this file.
 
+## v1.1.0 - 2026-02-24
+
+### Added
+- Extended tripwire support for hook-to-hook lines beyond vanilla distance when configured.
+- New global config option: `tripwire.maxLength` (default `69`, clamped to `40..256`).
+- Tripwire extension logic for common trigger sources (player/entity interaction and projectile hits on tripwire).
+- Extended tripwire state management with short power windows and retrigger extension handling.
+
+### Changed
+- `/fastcrops status` now reports `tripwire.maxLength`.
+- Updated default config and README docs to include extended tripwire behavior and limits.
+
 ## v1.0.0 - 2026-02-16
 
 ### Added

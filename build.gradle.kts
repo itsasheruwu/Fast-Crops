@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "io.github.ash"
-version = "1.0.0"
+version = "1.1.0"
 
 val java21 = JavaLanguageVersion.of(21)
 

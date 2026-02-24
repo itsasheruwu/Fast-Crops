@@ -38,6 +38,8 @@ vanillaRandomTickSpeed: 3
 defaultTargetTickSpeed: 100
 intervalTicks: 2
 maxBlocksPerTickPerWorld: 2000
+tripwire:
+  maxLength: 69
 
 worlds:
   world:
@@ -60,6 +62,7 @@ debug: false
 - `defaultTargetTickSpeed`: equivalent target speed for worlds without explicit override.
 - `intervalTicks`: engine run interval (lower = more frequent updates).
 - `maxBlocksPerTickPerWorld`: hard cap of tracked blocks processed per world each run.
+- `tripwire.maxLength`: plugin-side extended tripwire hook-to-hook distance cap (default `69`, clamped to `40..256`).
 - `worlds.<name>`: per-world enable/disable and per-world overrides.
 - `include.*`: include or exclude categories from tracking and acceleration.
 
@@ -82,6 +85,7 @@ debug: false
 - Growth is probabilistic and step-based (no forced instant max age).
 - Sapling acceleration uses bonemeal application API to preserve vanilla tree events/cancellations.
 - Crop/manual state changes are guarded through `BlockGrowEvent` checks.
+- Extended tripwire support is a plugin emulation for spans above vanilla (`>40`) and aims for core hook connection/power behavior, not full NMS parity.
 
 ## Auto-update
 - Fast Crops can check GitHub releases on startup and automatically download updates to the server `plugins/update` folder.

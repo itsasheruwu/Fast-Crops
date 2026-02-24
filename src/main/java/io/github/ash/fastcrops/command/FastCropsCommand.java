@@ -60,6 +60,7 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage("- defaultTargetTickSpeed: " + config.getDefaultTargetTickSpeed());
         sender.sendMessage("- intervalTicks: " + config.getIntervalTicks());
         sender.sendMessage("- maxBlocksPerTickPerWorld: " + config.getMaxBlocksPerTickPerWorld());
+        sender.sendMessage("- tripwire.maxLength: " + config.getTripwireMaxLength());
         sender.sendMessage("- include: crops=" + config.isIncludeCrops()
                 + ", saplings=" + config.isIncludeSaplings()
                 + ", bamboo=" + config.isIncludeBamboo()

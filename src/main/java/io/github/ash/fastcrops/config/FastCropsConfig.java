@@ -8,6 +8,10 @@ import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
 
 public final class FastCropsConfig {
+    static final int DEFAULT_TRIPWIRE_MAX_LENGTH = 69;
+    static final int MIN_TRIPWIRE_MAX_LENGTH = 40;
+    static final int MAX_TRIPWIRE_MAX_LENGTH = 256;
+
     private final FastCropsPlugin plugin;
 
     private boolean enabled;
@@ -15,6 +19,7 @@ public final class FastCropsConfig {
     private double defaultTargetTickSpeed;
     private int intervalTicks;
     private int maxBlocksPerTickPerWorld;
+    private int tripwireMaxLength;
     private boolean includeCrops;
     private boolean includeSaplings;
     private boolean includeBamboo;
@@ -40,6 +45,9 @@ public final class FastCropsConfig {
         this.defaultTargetTickSpeed = Math.max(0.0D, plugin.getConfig().getDouble("defaultTargetTickSpeed", 100.0D));
         this.intervalTicks = Math.max(1, plugin.getConfig().getInt("intervalTicks", 2));
         this.maxBlocksPerTickPerWorld = Math.max(1, plugin.getConfig().getInt("maxBlocksPerTickPerWorld", 2000));
+        boolean hasTripwireMaxLength = plugin.getConfig().isInt("tripwire.maxLength");
+        int rawTripwireMaxLength = plugin.getConfig().getInt("tripwire.maxLength", DEFAULT_TRIPWIRE_MAX_LENGTH);
+        this.tripwireMaxLength = sanitizeTripwireMaxLength(hasTripwireMaxLength, rawTripwireMaxLength);
 
         this.includeCrops = plugin.getConfig().getBoolean("include.crops", true);
         this.includeSaplings = plugin.getConfig().getBoolean("include.saplings", true);
@@ -105,6 +113,10 @@ public final class FastCropsConfig {
 
     public int getMaxBlocksPerTickPerWorld() {
         return maxBlocksPerTickPerWorld;
+    }
+
+    public int getTripwireMaxLength() {
+        return tripwireMaxLength;
     }
 
     public boolean isIncludeCrops() {
@@ -182,5 +194,13 @@ public final class FastCropsConfig {
         plugin.getConfig().set(path, next);
         plugin.saveConfig();
         return next;
+    }
+
+    static int sanitizeTripwireMaxLength(boolean hasExplicitInteger, int configuredValue) {
+        int resolvedValue = hasExplicitInteger ? configuredValue : DEFAULT_TRIPWIRE_MAX_LENGTH;
+        if (resolvedValue < MIN_TRIPWIRE_MAX_LENGTH) {
+            return MIN_TRIPWIRE_MAX_LENGTH;
+        }
+        return Math.min(resolvedValue, MAX_TRIPWIRE_MAX_LENGTH);
     }
 }

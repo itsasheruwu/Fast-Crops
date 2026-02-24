@@ -3,6 +3,8 @@ vanillaRandomTickSpeed: 3
 defaultTargetTickSpeed: 100
 intervalTicks: 2
 maxBlocksPerTickPerWorld: 2000
+tripwire:
+  maxLength: 69
 
 worlds:
   world:
