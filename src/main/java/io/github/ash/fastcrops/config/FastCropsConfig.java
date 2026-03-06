@@ -25,6 +25,7 @@ public final class FastCropsConfig {
     private boolean includeBamboo;
     private boolean includeSugarCane;
     private boolean includeCactus;
+    private boolean includeHoppers;
     private boolean debug;
     private boolean autoUpdateEnabled;
     private boolean autoUpdateCheckOnStartup;
@@ -54,13 +55,14 @@ public final class FastCropsConfig {
         this.includeBamboo = plugin.getConfig().getBoolean("include.bamboo", false);
         this.includeSugarCane = plugin.getConfig().getBoolean("include.sugarCane", false);
         this.includeCactus = plugin.getConfig().getBoolean("include.cactus", false);
+        this.includeHoppers = plugin.getConfig().getBoolean("include.hoppers", false);
 
         this.debug = plugin.getConfig().getBoolean("debug", false);
         this.autoUpdateEnabled = plugin.getConfig().getBoolean("autoUpdate.enabled", true);
         this.autoUpdateCheckOnStartup = plugin.getConfig().getBoolean("autoUpdate.checkOnStartup", true);
         this.autoUpdateDownloadOnUpdate = plugin.getConfig().getBoolean("autoUpdate.downloadOnUpdate", true);
         this.autoUpdateRepositoryOwner = plugin.getConfig().getString("autoUpdate.repositoryOwner", "starboyash");
-        this.autoUpdateRepositoryName = plugin.getConfig().getString("autoUpdate.repositoryName", "Fast-Crops");
+        this.autoUpdateRepositoryName = plugin.getConfig().getString("autoUpdate.repositoryName", "Fast-Things");
         this.autoUpdateChannel = plugin.getConfig().getString("autoUpdate.channel", "latest");
 
         this.worldConfigs = parseWorldConfigs(plugin.getConfig().getConfigurationSection("worlds"));
@@ -137,6 +139,10 @@ public final class FastCropsConfig {
 
     public boolean isIncludeCactus() {
         return includeCactus;
+    }
+
+    public boolean isIncludeHoppers() {
+        return includeHoppers;
     }
 
     public boolean isDebug() {

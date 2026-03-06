@@ -178,7 +178,7 @@ public final class GrowableTracker implements Listener {
         }
 
         if (config.isDebug()) {
-            plugin.getLogger().info("[FastCrops] Scanned chunk " + chunk.getX() + "," + chunk.getZ()
+            plugin.getLogger().info("[FastThings] Scanned chunk " + chunk.getX() + "," + chunk.getZ()
                     + " in world " + world.getName().toLowerCase(Locale.ROOT));
         }
     }

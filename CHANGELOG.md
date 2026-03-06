@@ -2,6 +2,20 @@
 
 All notable user-facing changes are documented in this file.
 
+## v1.1.1 - 2026-03-06
+
+### Added
+- New config option: `include.hoppers` (default `false`) to enable hopper acceleration.
+- Hopper acceleration listener that scales hopper transfer cooldown from world `targetTickSpeed` and `vanillaRandomTickSpeed` (vanilla `8` ticks, minimum `1` tick).
+
+### Changed
+- Rebranded plugin/project naming from Fast Crops to Fast Things for runtime metadata and docs.
+- Primary admin command is now `/fastthings` with `/fthings` alias.
+- Legacy command aliases `/fastcrops` and `/fcrops` remain supported for compatibility.
+- Primary permission is now `fastthings.admin`, with legacy `fastcrops.admin` still accepted.
+- `/fastthings status` now reports `include.hoppers`.
+- Default auto-update repository name now targets `Fast-Things`.
+
 ## v1.1.0 - 2026-02-24
 
 ### Added

@@ -1,6 +1,6 @@
-# Fast Crops
+# Fast Things
 
-Fast Crops is a Paper plugin for Minecraft that accelerates only crop and sapling growth (plus optional bamboo/sugar cane/cactus), using a tracked-block model designed for large servers.
+Fast Things is a Paper plugin for Minecraft that accelerates crop and sapling growth (plus optional bamboo/sugar cane/cactus and hoppers), using a tracked-block model designed for large servers.
 
 ## Release notes
 - See `CHANGELOG.md` for the full release history and consolidated `v1.0.0` notes.
@@ -13,21 +13,23 @@ Fast Crops is a Paper plugin for Minecraft that accelerates only crop and saplin
 ## Install
 1. Build the plugin:
    - `./gradlew build` (or `gradle build` if you do not use the wrapper)
-2. Copy `build/libs/FastCrops-<version>.jar` into your server `plugins/` folder.
+2. Copy `build/libs/FastThings-<version>.jar` into your server `plugins/` folder.
 3. Start or restart the Paper server.
-4. Edit `plugins/FastCrops/config.yml` as needed.
-5. Use `/fastcrops reload` after config changes.
+4. Edit `plugins/FastThings/config.yml` as needed.
+5. Use `/fastthings reload` after config changes.
 
 ## Commands
-- `/fastcrops status`
-- `/fastcrops reload`
-- `/fastcrops set <world> targetTickSpeed <number>`
-- `/fastcrops toggle <world>`
+- `/fastthings status`
+- `/fastthings reload`
+- `/fastthings set <world> targetTickSpeed <number>`
+- `/fastthings toggle <world>`
+- Legacy aliases still work: `/fastcrops` and `/fcrops`
 
 Permission:
-- `fastcrops.admin`
+- `fastthings.admin` (primary)
+- `fastcrops.admin` (legacy alias)
 
-`status` is readable by any sender; `reload`, `set`, and `toggle` require `fastcrops.admin`.
+All commands require admin permission.
 
 ## Configuration
 Default `config.yml`:
@@ -53,6 +55,7 @@ include:
   bamboo: false
   sugarCane: false
   cactus: false
+  hoppers: false
 
 debug: false
 ```
@@ -65,9 +68,10 @@ debug: false
 - `tripwire.maxLength`: plugin-side extended tripwire hook-to-hook distance cap (default `69`, clamped to `40..256`).
 - `worlds.<name>`: per-world enable/disable and per-world overrides.
 - `include.*`: include or exclude categories from tracking and acceleration.
+- `include.hoppers`: accelerates hopper transfer cooldown using the same world tick-speed controls.
 
 ## Performance notes
-- Fast Crops never scans the whole world each tick.
+- Fast Things never scans the whole world each tick.
 - It tracks only relevant growables via events and chunk lifecycle:
   - `ChunkLoadEvent` one-time chunk scan
   - `ChunkUnloadEvent` chunk-local cleanup
@@ -83,12 +87,13 @@ debug: false
   - `extraPerRun = (extraTickSpeed / 4096) * intervalTicks`
   - floor plus fractional chance for +1 attempt.
 - Growth is probabilistic and step-based (no forced instant max age).
+- Hopper acceleration uses world `targetTickSpeed` and `vanillaRandomTickSpeed` to scale hopper transfer cooldown (vanilla `8` ticks, min `1` tick).
 - Sapling acceleration uses bonemeal application API to preserve vanilla tree events/cancellations.
 - Crop/manual state changes are guarded through `BlockGrowEvent` checks.
 - Extended tripwire support is a plugin emulation for spans above vanilla (`>40`) and aims for core hook connection/power behavior, not full NMS parity.
 
 ## Auto-update
-- Fast Crops can check GitHub releases on startup and automatically download updates to the server `plugins/update` folder.
+- Fast Things can check GitHub releases on startup and automatically download updates to the server `plugins/update` folder.
 - Controlled by `autoUpdate` config:
   - `enabled`
   - `checkOnStartup`
@@ -100,10 +105,10 @@ debug: false
 ## Quick testing steps
 1. Start Paper 1.21.11 with this plugin.
 2. Plant wheat/carrots/potatoes and saplings in `world`.
-3. Run `/fastcrops status` and verify tracked counts rise as chunks load.
+3. Run `/fastthings status` and verify tracked counts rise as chunks load.
 4. Compare growth speed against vanilla baseline (`randomTickSpeed=3`).
-5. Run `/fastcrops set world targetTickSpeed 50` and verify slower acceleration.
-6. Run `/fastcrops toggle world` and confirm growth acceleration stops/resumes.
+5. Run `/fastthings set world targetTickSpeed 50` and verify slower acceleration.
+6. Run `/fastthings toggle world` and confirm growth acceleration stops/resumes.
 
 ## License
 This project is licensed under **GPL-3.0-only**. See `LICENSE` for the full text.

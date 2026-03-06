@@ -18,6 +18,7 @@ include:
   bamboo: false
   sugarCane: false
   cactus: false
+  hoppers: false
 
 debug: false
 
@@ -26,5 +27,5 @@ autoUpdate:
   checkOnStartup: true
   downloadOnUpdate: true
   repositoryOwner: starboyash
-  repositoryName: Fast-Crops
+  repositoryName: Fast-Things
   channel: latest

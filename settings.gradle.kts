@@ -1,1 +1,1 @@
-rootProject.name = "FastCrops"
+rootProject.name = "FastThings"

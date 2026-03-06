@@ -4,6 +4,7 @@ import java.util.random.RandomGenerator;
 
 public final class GrowthMath {
     private static final int BLOCKS_PER_CHUNK_SECTION = 16 * 16 * 16;
+    private static final int VANILLA_HOPPER_TRANSFER_COOLDOWN_TICKS = 8;
 
     private GrowthMath() {
     }
@@ -51,5 +52,23 @@ public final class GrowthMath {
 
     public static int blocksPerChunkSection() {
         return BLOCKS_PER_CHUNK_SECTION;
+    }
+
+    public static int hopperTransferCooldownTicks(double targetTickSpeed, int vanillaRandomTickSpeed) {
+        return hopperTransferCooldownTicks(targetTickSpeed, vanillaRandomTickSpeed, VANILLA_HOPPER_TRANSFER_COOLDOWN_TICKS);
+    }
+
+    static int hopperTransferCooldownTicks(double targetTickSpeed, int vanillaRandomTickSpeed, int vanillaCooldownTicks) {
+        int clampedVanillaCooldown = Math.max(1, vanillaCooldownTicks);
+        double speedMultiplier = multiplier(targetTickSpeed, vanillaRandomTickSpeed);
+        if (speedMultiplier <= 1.0D) {
+            return clampedVanillaCooldown;
+        }
+
+        int acceleratedCooldown = (int) Math.floor(clampedVanillaCooldown / speedMultiplier);
+        if (acceleratedCooldown < 1) {
+            return 1;
+        }
+        return Math.min(acceleratedCooldown, clampedVanillaCooldown);
     }
 }

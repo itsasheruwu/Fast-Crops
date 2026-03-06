@@ -18,7 +18,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 public final class FastCropsCommand implements CommandExecutor, TabCompleter {
-    private static final String ADMIN_PERMISSION = "fastcrops.admin";
+    private static final String PRIMARY_ADMIN_PERMISSION = "fastthings.admin";
+    private static final String LEGACY_ADMIN_PERMISSION = "fastcrops.admin";
 
     private final FastCropsPlugin plugin;
 
@@ -28,7 +29,7 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission(ADMIN_PERMISSION)) {
+        if (!hasAdminPermission(sender)) {
             sender.sendMessage("You do not have permission to use this command.");
             return true;
         }
@@ -54,7 +55,7 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
         FastCropsConfig config = plugin.getFastCropsConfig();
         GrowableTracker tracker = plugin.getGrowableTracker();
 
-        sender.sendMessage("FastCrops status:");
+        sender.sendMessage("FastThings status:");
         sender.sendMessage("- enabled: " + config.isEnabled());
         sender.sendMessage("- vanillaRandomTickSpeed: " + config.getVanillaRandomTickSpeed());
         sender.sendMessage("- defaultTargetTickSpeed: " + config.getDefaultTargetTickSpeed());
@@ -65,7 +66,8 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
                 + ", saplings=" + config.isIncludeSaplings()
                 + ", bamboo=" + config.isIncludeBamboo()
                 + ", sugarCane=" + config.isIncludeSugarCane()
-                + ", cactus=" + config.isIncludeCactus());
+                + ", cactus=" + config.isIncludeCactus()
+                + ", hoppers=" + config.isIncludeHoppers());
 
         Map<String, Integer> trackedCounts = tracker.getTrackedCountsByWorldName();
         sender.sendMessage("Per-world:");
@@ -81,7 +83,7 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
 
     private void handleReload(CommandSender sender) {
         plugin.reloadPluginState();
-        sender.sendMessage("FastCrops reloaded.");
+        sender.sendMessage("FastThings reloaded.");
     }
 
     private void handleSet(CommandSender sender, String[] args, String label) {
@@ -144,7 +146,7 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
     }
 
     private void sendUsage(CommandSender sender, String label) {
-        sender.sendMessage("FastCrops commands:");
+        sender.sendMessage("FastThings commands:");
         sender.sendMessage("- /" + label + " status");
         sender.sendMessage("- /" + label + " reload");
         sender.sendMessage("- /" + label + " set <world> targetTickSpeed <number>");
@@ -153,7 +155,7 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (!sender.hasPermission(ADMIN_PERMISSION)) {
+        if (!hasAdminPermission(sender)) {
             return Collections.emptyList();
         }
 
@@ -187,5 +189,9 @@ public final class FastCropsCommand implements CommandExecutor, TabCompleter {
                 .filter(candidate -> candidate.toLowerCase(Locale.ROOT).startsWith(lowerToken))
                 .sorted()
                 .collect(Collectors.toList());
+    }
+
+    private boolean hasAdminPermission(CommandSender sender) {
+        return sender.hasPermission(PRIMARY_ADMIN_PERMISSION) || sender.hasPermission(LEGACY_ADMIN_PERMISSION);
     }
 }

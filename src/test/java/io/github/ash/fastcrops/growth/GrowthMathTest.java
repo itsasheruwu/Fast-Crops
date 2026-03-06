@@ -37,4 +37,22 @@ class GrowthMathTest {
         int compensated = GrowthMath.extraAttemptsPerProcessedBlock(1000.0D, 3, 20.0D, new Random(10L));
         assertTrue(compensated >= base);
     }
+
+    @Test
+    void hopperCooldownHasNoSpeedupAtOrBelowVanilla() {
+        assertEquals(8, GrowthMath.hopperTransferCooldownTicks(3.0D, 3));
+        assertEquals(8, GrowthMath.hopperTransferCooldownTicks(1.0D, 3));
+    }
+
+    @Test
+    void hopperCooldownDecreasesWhenTargetIsHigher() {
+        int accelerated = GrowthMath.hopperTransferCooldownTicks(12.0D, 3);
+        assertTrue(accelerated < 8);
+        assertTrue(accelerated >= 1);
+    }
+
+    @Test
+    void hopperCooldownCapsAtOneTickForVeryHighTargets() {
+        assertEquals(1, GrowthMath.hopperTransferCooldownTicks(10000.0D, 3));
+    }
 }

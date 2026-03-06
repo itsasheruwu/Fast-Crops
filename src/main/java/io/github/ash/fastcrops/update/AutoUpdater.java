@@ -45,7 +45,7 @@ public final class AutoUpdater {
             try {
                 checkAndUpdate();
             } catch (Exception ex) {
-                plugin.getLogger().warning("[FastCrops] Auto-update check failed: " + ex.getMessage());
+                plugin.getLogger().warning("[FastThings] Auto-update check failed: " + ex.getMessage());
             }
         });
     }
@@ -55,7 +55,7 @@ public final class AutoUpdater {
         String repo = config.getAutoUpdateRepositoryName();
 
         if (owner == null || owner.isBlank() || repo == null || repo.isBlank()) {
-            plugin.getLogger().warning("[FastCrops] Auto-update skipped: repository owner/name not configured.");
+            plugin.getLogger().warning("[FastThings] Auto-update skipped: repository owner/name not configured.");
             return;
         }
 
@@ -68,20 +68,20 @@ public final class AutoUpdater {
         HttpRequest request = HttpRequest.newBuilder(URI.create(apiUrl))
                 .timeout(Duration.ofSeconds(12))
                 .header("Accept", "application/vnd.github+json")
-                .header("User-Agent", "FastCrops-Updater")
+                .header("User-Agent", "FastThings-Updater")
                 .GET()
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            plugin.getLogger().warning("[FastCrops] Auto-update check failed: GitHub API status " + response.statusCode());
+            plugin.getLogger().warning("[FastThings] Auto-update check failed: GitHub API status " + response.statusCode());
             return;
         }
 
         String body = response.body();
         Optional<String> latestTagOptional = matchFirst(TAG_PATTERN, body);
         if (latestTagOptional.isEmpty()) {
-            plugin.getLogger().warning("[FastCrops] Auto-update check failed: could not parse latest tag.");
+            plugin.getLogger().warning("[FastThings] Auto-update check failed: could not parse latest tag.");
             return;
         }
 
@@ -89,21 +89,21 @@ public final class AutoUpdater {
         String currentVersion = normalizeVersion(plugin.getDescription().getVersion());
         if (compareVersions(latestTag, currentVersion) <= 0) {
             if (config.isDebug()) {
-                plugin.getLogger().info("[FastCrops] Auto-update: already on latest version " + currentVersion + ".");
+                plugin.getLogger().info("[FastThings] Auto-update: already on latest version " + currentVersion + ".");
             }
             return;
         }
 
-        plugin.getLogger().info("[FastCrops] Update available: " + currentVersion + " -> " + latestTag + ".");
+        plugin.getLogger().info("[FastThings] Update available: " + currentVersion + " -> " + latestTag + ".");
 
         if (!config.isAutoUpdateDownloadOnUpdate()) {
-            plugin.getLogger().info("[FastCrops] Auto-update download disabled by config.");
+            plugin.getLogger().info("[FastThings] Auto-update download disabled by config.");
             return;
         }
 
         Matcher matcher = ASSET_PATTERN.matcher(body);
         if (!matcher.find()) {
-            plugin.getLogger().warning("[FastCrops] Auto-update failed: no jar asset found on release.");
+            plugin.getLogger().warning("[FastThings] Auto-update failed: no jar asset found on release.");
             return;
         }
 
@@ -115,13 +115,13 @@ public final class AutoUpdater {
     private void downloadToUpdateFolder(String assetName, String downloadUrl) throws IOException, InterruptedException {
         HttpRequest downloadRequest = HttpRequest.newBuilder(URI.create(downloadUrl))
                 .timeout(Duration.ofSeconds(30))
-                .header("User-Agent", "FastCrops-Updater")
+                .header("User-Agent", "FastThings-Updater")
                 .GET()
                 .build();
 
         HttpResponse<InputStream> downloadResponse = httpClient.send(downloadRequest, HttpResponse.BodyHandlers.ofInputStream());
         if (downloadResponse.statusCode() != 200) {
-            plugin.getLogger().warning("[FastCrops] Auto-update download failed: HTTP " + downloadResponse.statusCode());
+            plugin.getLogger().warning("[FastThings] Auto-update download failed: HTTP " + downloadResponse.statusCode());
             return;
         }
 
@@ -136,7 +136,7 @@ public final class AutoUpdater {
             Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        plugin.getLogger().info("[FastCrops] Downloaded update to " + target + ". Restart server to apply.");
+        plugin.getLogger().info("[FastThings] Downloaded update to " + target + ". Restart server to apply.");
     }
 
     private Optional<String> matchFirst(Pattern pattern, String body) {

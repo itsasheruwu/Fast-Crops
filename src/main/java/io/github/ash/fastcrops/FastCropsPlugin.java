@@ -3,6 +3,7 @@ package io.github.ash.fastcrops;
 import io.github.ash.fastcrops.command.FastCropsCommand;
 import io.github.ash.fastcrops.config.FastCropsConfig;
 import io.github.ash.fastcrops.growth.GrowthEngine;
+import io.github.ash.fastcrops.hopper.HopperAccelerationService;
 import io.github.ash.fastcrops.tracking.GrowableTracker;
 import io.github.ash.fastcrops.tripwire.TripwireExtensionService;
 import io.github.ash.fastcrops.update.AutoUpdater;
@@ -14,6 +15,7 @@ public final class FastCropsPlugin extends JavaPlugin {
     private GrowableTracker growableTracker;
     private GrowthEngine growthEngine;
     private TripwireExtensionService tripwireExtensionService;
+    private HopperAccelerationService hopperAccelerationService;
     private AutoUpdater autoUpdater;
 
     @Override
@@ -30,14 +32,17 @@ public final class FastCropsPlugin extends JavaPlugin {
         this.tripwireExtensionService = new TripwireExtensionService(this, fastCropsConfig);
         getServer().getPluginManager().registerEvents(tripwireExtensionService, this);
 
+        this.hopperAccelerationService = new HopperAccelerationService(fastCropsConfig);
+        getServer().getPluginManager().registerEvents(hopperAccelerationService, this);
+
         this.growthEngine = new GrowthEngine(this, fastCropsConfig, growableTracker);
         this.growthEngine.start();
         this.autoUpdater = new AutoUpdater(this, fastCropsConfig);
         this.autoUpdater.checkAndUpdateAsync();
 
         registerCommands();
-        getLogger().info("Command hint: use /fastcrops or /fcrops. If there is a command conflict, use /fastcrops:fastcrops.");
-        getLogger().info("FastCrops enabled.");
+        getLogger().info("Command hint: use /fastthings (aliases: /fthings, /fastcrops, /fcrops).");
+        getLogger().info("FastThings enabled.");
     }
 
     @Override
@@ -48,7 +53,7 @@ public final class FastCropsPlugin extends JavaPlugin {
         if (growableTracker != null) {
             growableTracker.clear();
         }
-        getLogger().info("FastCrops disabled.");
+        getLogger().info("FastThings disabled.");
     }
 
     public void reloadPluginState() {
@@ -67,9 +72,9 @@ public final class FastCropsPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        PluginCommand command = getCommand("fastcrops");
+        PluginCommand command = getCommand("fastthings");
         if (command == null) {
-            getLogger().severe("Command 'fastcrops' is missing from plugin.yml.");
+            getLogger().severe("Command 'fastthings' is missing from plugin.yml.");
             return;
         }
 
